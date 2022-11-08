@@ -7,7 +7,7 @@ export const loginValidation = [
 
 export const registerValidation = [
   body('email', 'Not validate email').isEmail(),
-  body('password', 'Password must be minimize 5 symbols').isLength({min: 5}),
+  body('password', 'Password must be minimize 5 symbols').isLength({min: 4}),
   body('fullName', 'Enter name').isLength({min: 3}),
   body('avatarUrl', 'Link isn`t correct').optional().isURL(),
 ];

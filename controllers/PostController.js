@@ -2,7 +2,7 @@ import PostModel from '../models/Post.js'
 
 export const getAll = async (req, res) => {
   try {
-    const posts = await PostModel.find().populate('user').exec();// здесь мы образуем связь  между таблицами в
+    const posts = await PostModel.find().populate('author').exec();// здесь мы образуем связь  между таблицами в
     // mongoDB чтоб можно было вытащить id user.
     res.json(posts)
   } catch (err) {
@@ -17,7 +17,7 @@ export const getLastTags = async  (req, res ) => {
   try {
     const posts = await PostModel.find().limit(5).exec();// здесь мы образуем связь  между таблицами в
     // mongoDB чтоб можно было вытащить id user.
-    const tags = posta.map((post) => post.tags).flat().slice(0, 5);
+    const tags = posts.map((post) => post.tags).flat().slice(0, 5);
 
     res.json(posts)
   } catch (err) {
@@ -93,12 +93,14 @@ export const remove = async (req, res) => {
 }
 
 export const create = async (req, res) => {
+
+  console.log(req)
   try {
     const doc = new PostModel({
       title: req.body.title,
       text: req.body.text,
       imageUrl: req.body.imageUrl,
-      tags: req.body.tags.split(','),
+      tags: req.body.tags,
       author: req.userId,
     });
     const post = await doc.save();

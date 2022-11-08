@@ -1,14 +1,14 @@
 import express from 'express';
 import mongoose from 'mongoose';
-import {loginValidation, postCreateValidation, registerValidation} from "./validations.js";
-import {checkAuth, handleValidationErrors} from './utils/index.js';
-import {UserController, PostController} from './controllers/index.js';
+import { loginValidation, postCreateValidation, registerValidation } from "./validations.js";
+import { checkAuth, handleValidationErrors } from './utils/index.js';
+import { UserController, PostController } from './controllers/index.js';
 import multer from 'multer';
 import cors from 'cors';
 
 mongoose.connect('mongodb+srv://admin:wwwwww@cluster0.cmyote5.mongodb.net/blog?retryWrites=true&w=majority')
   .then(() => console.log('DB ok'))
-  .catch((err) => console.log('DB error', err))
+  .catch((err) => console.log('DB error:', err))
 
 const app = express();
 
@@ -21,7 +21,7 @@ const storage = multer.diskStorage({
   }
 });// это хранилище где м будем сохранять картинки
 
-const upload = multer({storage});
+const upload = multer({ storage });
 
 app.use(express.json())//чтоб  сервер понимал форат json, если убрать эту строчку то в терминале или в ответе будет
 // undefined
@@ -46,14 +46,17 @@ app.post('/upload', checkAuth, upload.single('image'), (req, res) => {
 );
 
 app.get('/posts', PostController.getAll);
-app.get('/tags', PostController.getLastTags)
+app.get('/tags', PostController.getLastTags);
 app.get('/posts/:id', PostController.getOne);
-app.post('/post', checkAuth, postCreateValidation, handleValidationErrors, PostController.create);
+app.post('/posts', checkAuth, postCreateValidation, handleValidationErrors, PostController.create);
 app.delete('posts/:id', checkAuth, PostController.remove);
 app.patch('posts/:id', checkAuth, postCreateValidation, handleValidationErrors, PostController.update);
 
+
+app.get('/', () => 'hello world')
+
 app.listen(4444, (err) => {
-  if (err) {
+  if ( err ) {
     return console.log(err)
   }
   console.log('Server OK')
