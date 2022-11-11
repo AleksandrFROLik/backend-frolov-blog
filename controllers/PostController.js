@@ -8,7 +8,7 @@ export const getAll = async (req, res) => {
   } catch (err) {
     console.log(err)
     res.status(500).json({
-      message: 'Server is fallen'
+      message: 'GetAll: Server is fallen'
     })
   }
 }
@@ -19,11 +19,11 @@ export const getLastTags = async  (req, res ) => {
     // mongoDB чтоб можно было вытащить id user.
     const tags = posts.map((post) => post.tags).flat().slice(0, 5);
 
-    res.json(posts)
+    res.json(tags)
   } catch (err) {
     console.log(err)
     res.status(500).json({
-      message: 'Server is fallen'
+      message: 'GetLastTags:Server is fallen'
     })
   }
 }
@@ -31,7 +31,7 @@ export const getLastTags = async  (req, res ) => {
 export const getOne = async (req, res) => {
   try {
     const postId = req.params.id
-    PostModel.findOneAndUpdate({
+     PostModel.findOneAndUpdate({
         _id: postId,// здесь передаем id  поста для его нахождения
       }, {
         $inc: {viewCount: 1}, //здесь прописываем что счетчик должен увеличиться на оди при запросе этой статьи
@@ -43,20 +43,22 @@ export const getOne = async (req, res) => {
         if (err) {
           console.log(err)
           return res.status(500).json({
-            message: 'Failed to retrieve article'
+            message: 'GetOne: Failed to retrieve article'
           })
         }
         if (!doc) {
           return res.status(404).json({
-            message: 'Article not found'
+            message: 'GetOne: Article not found'
           })
         }
+
         res.json(doc)
-      }).populate('user')
+
+      }).populate('author')
   } catch (err) {
     console.log(err)
     res.status(500).json({
-      message: 'Server is fallen'
+      message: 'GetOne: Server is fallen'
     })
   }
 }
@@ -71,12 +73,12 @@ export const remove = async (req, res) => {
         if (err) {
           console.log(err)
           res.status(500).json({
-            message: 'Article not deleted'
+            message: 'Remove: Article not deleted'
           });
         }
         if (!doc) {
           return res.status(404).json({
-            message: 'Article not found'
+            message: 'Remove: Article not found'
           })
         }
         res.json({
@@ -87,7 +89,7 @@ export const remove = async (req, res) => {
   } catch (err) {
     console.log(err)
     res.status(500).json({
-      message: 'Server is fallen'
+      message: 'Remove: Server is fallen'
     })
   }
 }
@@ -108,7 +110,7 @@ export const create = async (req, res) => {
   } catch (err) {
     console.log(err)
     res.status(500).json({
-      message: 'The article is not create'
+      message: 'Create: The article is not create'
     })
   }
 }
@@ -132,7 +134,7 @@ export const update = async (req, res) => {
   } catch (err) {
     console.log(err)
     res.status(500).json({
-      message: 'Do not update the article'
+      message: 'Update: Do not update the article'
     })
   }
 }

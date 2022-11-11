@@ -30,10 +30,7 @@ app.use(cors()) //разрешение на переход из одного с�
 
 app.use('/uploads', express.static('uploads')); //проверка которая делает express чтоб понять есть ли такая картинка
 // в папке. Это необходимо чтоб картинка появилась а не выдала просто све название на frontend.
-app.get('/', (request, response) => {
-  response.send('Hello world')
-})
-app.get('/tags', PostController.getLastTags)
+
 app.post('/auth/register', registerValidation, handleValidationErrors, UserController.register)
 app.post('/auth/login', loginValidation, handleValidationErrors, UserController.login);
 app.get('/auth/me', checkAuth, UserController.getMe);
@@ -52,8 +49,6 @@ app.post('/posts', checkAuth, postCreateValidation, handleValidationErrors, Post
 app.delete('posts/:id', checkAuth, PostController.remove);
 app.patch('posts/:id', checkAuth, postCreateValidation, handleValidationErrors, PostController.update);
 
-
-app.get('/', () => 'hello world')
 
 app.listen(4444, (err) => {
   if ( err ) {

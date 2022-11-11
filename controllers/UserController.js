@@ -32,7 +32,7 @@ export const register = async (req, res) => {
   } catch (err) {
     console.log(err)
     res.status(500).json({
-      message: 'Registration is fallen'
+      message: 'Register: Registration is fallen'
     })
   }
 };
@@ -81,7 +81,7 @@ export const getMe = async (req, res) => {
     // findById найти пользоваеля по переданному id. req.userId
     if ( !user ) {
       return res.status(404).json({
-        message: 'User is not found'
+        message: 'GetMe: User is not found'
       })
     }
     const { passwordHash, ...userData } = user._doc;
@@ -89,7 +89,7 @@ export const getMe = async (req, res) => {
   } catch (err) {
     console.log(err)
     res.status(500).json({
-      message: 'No access'
+      message: 'GetMe: No access'
     })
   }
 };

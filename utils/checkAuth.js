@@ -1,4 +1,4 @@
-import jsonwebtoken from 'jsonwebtoken';
+  import jsonwebtoken from 'jsonwebtoken';
 
 export default (req, res, next) => {
   const token = (req.headers.authorization || '').replace(/Bearer\s?/, ''); //  здесь мы убираем слово Bearer и
